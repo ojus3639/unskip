@@ -1,0 +1,91 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-background: #0a0a0a;
+  --color-foreground: #fafafa;
+  --color-card: #141414;
+  --color-card-foreground: #fafafa;
+  --color-primary: #c8ff00;
+  --color-primary-foreground: #0a0a0a;
+  --color-secondary: #1a1a1a;
+  --color-secondary-foreground: #fafafa;
+  --color-muted: #1f1f1f;
+  --color-muted-foreground: #a1a1aa;
+  --color-accent: #c8ff00;
+  --color-accent-foreground: #0a0a0a;
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-input: #1f1f1f;
+  --color-ring: #c8ff00;
+  --color-destructive: #ff4444;
+  --font-body: var(--font-geist);
+  --radius: 0.75rem;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-body), system-ui, sans-serif;
+}
+
+.badge {
+  @apply inline-flex w-fit shrink-0 items-center justify-center rounded-full px-3 py-0.5 text-[11px] font-semibold tracking-wider uppercase whitespace-nowrap;
+}
+
+.badge-lime {
+  @apply bg-primary/15 text-primary;
+}
+
+.badge-muted {
+  @apply bg-muted text-muted-foreground;
+}
+
+.btn-lime {
+  @apply inline-flex items-center justify-center rounded-full bg-primary px-5 py-2 text-sm font-bold text-primary-foreground transition hover:brightness-110;
+}
+
+.btn-ghost {
+  @apply inline-flex items-center justify-center rounded-full border border-border bg-transparent px-5 py-2 text-sm font-medium text-foreground transition hover:bg-muted;
+}
+
+.card {
+  @apply overflow-hidden rounded-2xl bg-card text-card-foreground ring-1 ring-border transition;
+}
+
+.card-hover {
+  @apply hover:ring-primary/30;
+}
+
+.input-field {
+  @apply w-full rounded-xl border border-border bg-muted px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground outline-none transition focus:border-primary/50 focus:ring-2 focus:ring-primary/20;
+}
+
+.textarea-field {
+  @apply w-full rounded-xl border border-border bg-muted px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground outline-none transition focus:border-primary/50 focus:ring-2 focus:ring-primary/20;
+}
+
+.select-field {
+  @apply w-full rounded-xl border border-border bg-muted px-4 py-2.5 text-sm text-foreground outline-none transition focus:border-primary/50 focus:ring-2 focus:ring-primary/20;
+}
+
+.section-pad {
+  @apply py-12 md:py-16;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.25s ease-out;
+}
