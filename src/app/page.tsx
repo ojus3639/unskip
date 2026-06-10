@@ -190,7 +190,7 @@ export default function Home() {
           <a href="#" className="flex min-w-0 items-center gap-3">
             <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-lg ring-1 ring-border sm:h-11 sm:w-11">
               <Image
-                src="/images/logo.jpeg"
+                src="/images/image.png"
                 alt=""
                 fill
                 className="object-cover"
@@ -305,7 +305,7 @@ export default function Home() {
                 <div className="absolute inset-0 rotate-2 rounded-2xl bg-primary/20" />
                 <div className="relative overflow-hidden rounded-2xl ring-1 ring-border">
                   <Image
-                    src="/images/logo.jpeg"
+                    src="/images/image.png"
                     alt="Unskip Breakfast Club"
                     width={560}
                     height={560}
@@ -580,7 +580,7 @@ export default function Home() {
       <footer className="border-t border-border py-8">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 sm:flex-row sm:px-6">
           <div className="flex items-center gap-2">
-            <Image src="/images/logo.jpeg" alt="" width={24} height={24} className="rounded" />
+            <Image src="/images/image.png" alt="" width={24} height={24} className="rounded" />
             <span className="text-sm font-bold">Unskip Breakfast Club</span>
           </div>
           <p className="text-xs text-muted-foreground">

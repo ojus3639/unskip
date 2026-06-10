@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     title: "Unskip Breakfast Club",
     description:
       "High-protein, no-prep packaged breakfast. Fuel your mornings without the hassle.",
-    images: ["/images/logo.jpeg"],
+    images: ["/images/image.png"],
   },
 };
 
