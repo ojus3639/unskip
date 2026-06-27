@@ -10,6 +10,7 @@ import {
   MapPin,
   Menu,
   Package,
+  Timer,
   X,
   Zap,
 } from "lucide-react";
@@ -19,7 +20,7 @@ const products = [
   {
     name: "Spinach & Cheese Egg Muffins",
     description:
-      "Tender spinach and melted cheese folded into fluffy, protein-packed egg muffins. Open the pack, eat, and go — no prep required.",
+      "Tender spinach and melted cheese folded into fluffy, protein-packed egg muffins. Heat in the microwave for 60 seconds — breakfast ready in no time.",
     badge: "Available now",
     badgeClass: "badge-lime",
     image: "/images/spinach-cheese-egg-muffins.png",
@@ -54,10 +55,10 @@ const pillars = [
       "Take it to work, the gym, or straight from the fridge. Built for busy mornings.",
   },
   {
-    icon: MapPin,
-    title: "Made in Faridabad",
+    icon: Timer,
+    title: "Microwave Ready",
     description:
-      "Proudly crafted in Faridabad, Haryana — local food, global ambition.",
+      "Pop it in the microwave for 60 seconds. Hot, protein-packed breakfast without the hassle.",
   },
 ];
 
@@ -107,15 +108,6 @@ const whyPoints = [
     statLabel: "better concentration",
     detail:
       "Glucose from a proper breakfast restores what your brain needs for memory, alertness, and getting through that first meeting.",
-  },
-  {
-    id: "habit",
-    icon: Check,
-    label: "Habit",
-    stat: "1",
-    statLabel: "meal changes everything",
-    detail:
-      "One consistent breakfast habit sets the tone for healthier choices all day — we make it effortless with zero-prep packaging.",
   },
 ];
 
@@ -273,7 +265,7 @@ export default function Home() {
                 </h1>
                 <p className="max-w-md text-base leading-relaxed text-muted-foreground">
                   Quick, no-prep packaged breakfast that&apos;s high in protein.
-                  Fuel up on your busiest mornings — made in Faridabad, Haryana.
+                  Fuel up on your busiest mornings.
                 </p>
                 <div className="flex flex-wrap gap-3">
                   <a href="#products" className="btn-lime group">
@@ -464,7 +456,7 @@ export default function Home() {
               </div>
 
               <div className="overflow-hidden rounded-2xl bg-background ring-1 ring-border">
-                <div className="grid grid-cols-4 border-b border-border">
+                <div className="grid grid-cols-3 border-b border-border">
                   {whyPoints.map((point) => {
                     const isActive = activeWhy === point.id;
                     return (
@@ -628,7 +620,7 @@ export default function Home() {
             <span className="text-sm font-bold">Unskip Breakfast Club</span>
           </div>
           <p className="text-xs text-muted-foreground">
-            &copy; {new Date().getFullYear()} · Faridabad, Haryana
+            &copy; {new Date().getFullYear()} Unskip Breakfast Club
           </p>
           <p className="text-xs font-bold text-primary">#UnskipBreakfast</p>
         </div>
