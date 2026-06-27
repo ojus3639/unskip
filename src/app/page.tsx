@@ -15,27 +15,22 @@ import {
 } from "lucide-react";
 import { FormEvent, useState } from "react";
 
-const eggBiteFlavors = [
+const products = [
   {
-    name: "Tandoori Paneer",
+    name: "Spinach & Cheese Egg Muffins",
     description:
-      "Smoky tandoori spices meet creamy paneer in protein-packed egg bites. Bold Indian flavours, zero morning prep.",
-    badge: "Indian Classic",
-    image: "/images/egg-bites-tandoori-paneer.png",
+      "Tender spinach and melted cheese folded into fluffy, protein-packed egg muffins. Open the pack, eat, and go — no prep required.",
+    badge: "Available now",
+    badgeClass: "badge-lime",
+    image: "/images/spinach-cheese-egg-muffins.png",
   },
   {
-    name: "Peri Peri",
+    name: "French Toast Sticks",
     description:
-      "Fiery peri peri heat balanced with fluffy eggs. For mornings that need a kick — grab, eat, go.",
-    badge: "Spicy",
-    image: "/images/egg-bites-peri-peri.png",
-  },
-  {
-    name: "Spinach & Cheese",
-    description:
-      "Classic comfort — tender spinach and melted cheese folded into every bite. Wholesome and satisfying.",
-    badge: "Veggie",
-    image: "/images/egg-bites-spinach-cheese.png",
+      "Golden, grab-and-go french toast sticks — a sweet, satisfying start to your morning. Currently under development; coming soon to the lineup.",
+    badge: "In development",
+    badgeClass: "badge-muted",
+    image: "/images/french-toast-sticks.png",
   },
 ];
 
@@ -75,8 +70,8 @@ const inquiryTypes = [
 
 const heroStats = [
   { value: "High", label: "Protein" },
-  { value: "Zero", label: "Prep" },
-  { value: "3", label: "Flavours" },
+  { value: "Seconds", label: "To ready" },
+  { value: "2", label: "Products" },
 ];
 
 const navLinks = [
@@ -131,6 +126,7 @@ export default function Home() {
   const [errorMessage, setErrorMessage] = useState("");
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeWhy, setActiveWhy] = useState(whyPoints[0].id);
+  const [heroFlipped, setHeroFlipped] = useState(false);
 
   const currentWhy =
     whyPoints.find((p) => p.id === activeWhy) ?? whyPoints[0];
@@ -303,20 +299,65 @@ export default function Home() {
 
               <div className="relative mx-auto w-full max-w-sm lg:max-w-none">
                 <div className="absolute inset-0 rotate-2 rounded-2xl bg-primary/20" />
-                <div className="relative overflow-hidden rounded-2xl ring-1 ring-border">
-                  <Image
-                    src="/images/image.png"
-                    alt="Unskip Breakfast Club"
-                    width={560}
-                    height={560}
-                    className="h-auto w-full"
-                    priority
-                  />
-                </div>
-                <div className="absolute -bottom-3 -left-3 rounded-xl bg-primary px-3 py-2 text-primary-foreground">
-                  <p className="text-xs font-bold">High protein</p>
-                  <p className="text-[10px] opacity-70">Ready in seconds</p>
-                </div>
+                <button
+                  type="button"
+                  onClick={() => setHeroFlipped((f) => !f)}
+                  aria-label={heroFlipped ? "Show logo" : "Show brand proposition"}
+                  className="flip-scene relative block w-full text-left"
+                >
+                  <div
+                    className={`flip-card ring-1 ring-border ${heroFlipped ? "is-flipped" : ""}`}
+                  >
+                    {/* Front — logo */}
+                    <div className="flip-face bg-card">
+                      <Image
+                        src="/images/image.png"
+                        alt="Unskip Breakfast Club"
+                        fill
+                        className="object-cover"
+                        priority
+                      />
+                      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-background/90 to-transparent p-4 pt-10">
+                        <p className="text-xs font-medium text-muted-foreground">
+                          Tap to flip
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Back — brand proposition */}
+                    <div className="flip-face flip-face-back flex flex-col justify-center bg-card p-6 sm:p-8">
+                      <span className="badge badge-lime mb-4 w-fit">
+                        Our promise
+                      </span>
+                      <p className="mb-2 text-2xl font-bold leading-tight sm:text-3xl">
+                        High-protein breakfast,{" "}
+                        <span className="text-primary">ready in seconds</span>
+                      </p>
+                      <p className="mb-6 text-sm leading-relaxed text-muted-foreground sm:text-base">
+                        No cooking, no chopping, no morning chaos. Just
+                        packaged breakfast that fuels you — open, eat, and take
+                        on your day.
+                      </p>
+                      <div className="space-y-3 border-t border-border pt-4">
+                        <div className="flex items-center gap-3">
+                          <Zap className="h-4 w-4 shrink-0 text-primary" />
+                          <span className="text-sm">Protein-first, every serving</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <Clock className="h-4 w-4 shrink-0 text-primary" />
+                          <span className="text-sm">Zero prep — grab and go</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <Package className="h-4 w-4 shrink-0 text-primary" />
+                          <span className="text-sm">Packaged for busy mornings</span>
+                        </div>
+                      </div>
+                      <p className="mt-5 text-xs text-muted-foreground">
+                        Tap again to flip back
+                      </p>
+                    </div>
+                  </div>
+                </button>
               </div>
             </div>
           </div>
@@ -362,35 +403,37 @@ export default function Home() {
             <div className="mb-8 text-center">
               <span className="badge badge-lime mb-3">Products</span>
               <h2 className="mb-2 text-2xl font-bold tracking-tight sm:text-3xl">
-                Egg Bites
+                What we make
               </h2>
               <p className="mx-auto max-w-md text-sm text-muted-foreground sm:text-base">
-                Three bold flavours. Grab-and-go breakfast, done right.
+                High-protein packaged breakfast — grab-and-go, done right.
               </p>
               <span className="badge badge-muted mx-auto mt-3">
                 Awareness only — not for sale online yet
               </span>
             </div>
 
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {eggBiteFlavors.map((flavor) => (
-                <div key={flavor.name} className="card card-hover group">
+            <div className="mx-auto grid max-w-3xl gap-4 sm:grid-cols-2">
+              {products.map((product) => (
+                <div key={product.name} className="card card-hover group">
                   <div className="relative aspect-[4/3] overflow-hidden bg-muted">
-                    <span className="badge badge-lime absolute top-2.5 left-2.5 z-10">
-                      {flavor.badge}
+                    <span
+                      className={`badge absolute top-2.5 left-2.5 z-10 ${product.badgeClass}`}
+                    >
+                      {product.badge}
                     </span>
                     <Image
-                      src={flavor.image}
-                      alt={flavor.name}
+                      src={product.image}
+                      alt={product.name}
                       fill
                       className="object-cover transition-transform duration-500 group-hover:scale-105"
-                      sizes="(max-width: 768px) 100vw, 33vw"
+                      sizes="(max-width: 768px) 100vw, 50vw"
                     />
                   </div>
                   <div className="p-4">
-                    <h3 className="mb-1 text-base font-bold">{flavor.name}</h3>
+                    <h3 className="mb-1 text-base font-bold">{product.name}</h3>
                     <p className="text-sm leading-relaxed text-muted-foreground">
-                      {flavor.description}
+                      {product.description}
                     </p>
                   </div>
                 </div>
@@ -414,8 +457,9 @@ export default function Home() {
                   first meal makes a real difference.
                 </p>
                 <p className="text-sm leading-relaxed text-muted-foreground sm:text-base">
-                  We&apos;re building convenience without compromise — starting
-                  with Egg Bites, with more high-protein products on the way.
+                  We&apos;re building convenience without compromise — from egg
+                  muffins to french toast sticks, with more high-protein products
+                  on the way.
                 </p>
               </div>
 

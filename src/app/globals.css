@@ -89,3 +89,33 @@ body {
 .animate-fade-in {
   animation: fade-in 0.25s ease-out;
 }
+
+.flip-scene {
+  perspective: 1200px;
+}
+
+.flip-card {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+.flip-card.is-flipped {
+  transform: rotateY(180deg);
+}
+
+.flip-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.flip-face-back {
+  transform: rotateY(180deg);
+}

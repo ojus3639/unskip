@@ -10,7 +10,7 @@ const geist = Geist({
 export const metadata: Metadata = {
   title: "Unskip Breakfast Club | High-Protein Packaged Breakfast",
   description:
-    "Unskip Breakfast Club makes quick, no-prep, high-protein packaged breakfast. Based in Faridabad, Haryana. Egg Bites — Tandoori Paneer, Peri Peri & Spinach & Cheese.",
+    "Unskip Breakfast Club makes quick, no-prep, high-protein packaged breakfast. Based in Faridabad, Haryana. Spinach & Cheese Egg Muffins and French Toast Sticks.",
   openGraph: {
     title: "Unskip Breakfast Club",
     description:
