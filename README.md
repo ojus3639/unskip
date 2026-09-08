@@ -1,60 +1,37 @@
-# Unskip Breakfast Club
+# Wedding Gift Registry
 
-Awareness website for **Unskip Breakfast Club** — a Faridabad-based business making quick, no-prep, high-protein packaged breakfast.
-
-Built with **Next.js**, **Tailwind CSS**, and **Web3Forms**.
+A mobile-first wedding gift list built with Next.js and Tailwind CSS.
 
 ## Features
 
-- LemFi-inspired dark UI with lime-green CTAs
-- Brand colours from the Unskip logo (purple, pink, yellow)
-- Egg Bites product showcase — Tandoori Paneer, Peri Peri, Spinach & Cheese
-- Reach-out form for concerns, suggestions, and collaboration enquiries
-- Form submissions delivered to **ojus3639@gmail.com** via Web3Forms
+- Public gift list with reserve/block flow (names hidden from guests)
+- Admin login to see who reserved each gift (`admin` / `admin`)
+- Edit gift list page (names + links)
+- Couple photo background with a clean, minimal theme
 
 ## Getting Started
 
-### 1. Install dependencies
-
 ```bash
 npm install
-```
-
-### 2. Configure Web3Forms
-
-1. Go to [web3forms.com](https://web3forms.com/) and sign up with **ojus3639@gmail.com**
-2. Verify your email and copy your access key
-3. Create `.env.local`:
-
-```bash
-cp .env.local.example .env.local
-```
-
-4. Add your key:
-
-```
-NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY=your_actual_access_key
-```
-
-### 3. Run locally
-
-```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+Open [http://localhost:3000](http://localhost:3000)
 
-## Deploy
+## Pages
 
-Set `NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY` in your hosting environment variables, then:
+- `/` — Public gift list
+- `/admin` — Login + view reservations
+- `/admin/edit` — Login + edit gifts
 
-```bash
-npm run build
-npm start
-```
-# unskip
-# unskip
-# unskip
-# unskip
-# unskip
-# unskip
+## Data
+
+Gift data is stored in `data/registry.json`. Reservations and edits persist on the server filesystem (works on local dev and persistent Node hosts).
+
+For serverless deploys (e.g. Vercel), use a host with writable storage or migrate to a database.
+
+## Admin
+
+Default credentials: **admin** / **admin**
+
+Change `REGISTRY_SECRET` in `.env.local` for production cookie signing.

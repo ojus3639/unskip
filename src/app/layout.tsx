@@ -1,22 +1,22 @@
 import type { Metadata } from "next";
-import { Geist } from "next/font/google";
+import { Cormorant_Garamond, DM_Sans } from "next/font/google";
 import "./globals.css";
 
-const geist = Geist({
+const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
-  variable: "--font-geist",
+  variable: "--font-cormorant",
+  weight: ["500", "600", "700"],
+});
+
+const dmSans = DM_Sans({
+  subsets: ["latin"],
+  variable: "--font-dm-sans",
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
-  title: "Unskip Breakfast Club | High-Protein Packaged Breakfast",
-  description:
-    "Unskip Breakfast Club makes quick, no-prep, high-protein packaged breakfast. Spinach & Cheese Egg Muffins and French Toast Sticks.",
-  openGraph: {
-    title: "Unskip Breakfast Club",
-    description:
-      "High-protein, no-prep packaged breakfast. Fuel your mornings without the hassle.",
-    images: ["/images/image.png"],
-  },
+  title: "Ojus and Pallavi's Wedding | Gift Registry",
+  description: "A simple gift registry for our wedding — pick a gift and reserve it for us.",
 };
 
 export default function RootLayout({
@@ -25,8 +25,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
-      <body className={`${geist.variable} antialiased`}>{children}</body>
+    <html lang="en">
+      <body className={`${cormorant.variable} ${dmSans.variable} antialiased`}>
+        {children}
+      </body>
     </html>
   );
 }
