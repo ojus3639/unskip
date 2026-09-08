@@ -39,9 +39,18 @@ export default function Home() {
           <p className="font-serif mt-2 text-2xl font-medium text-forest/80 sm:text-3xl">
             Gift Registry
           </p>
-          <p className="mx-auto mt-3 max-w-sm text-sm leading-relaxed text-muted">
-            Your presence is the greatest gift. If you&apos;d like to bring
-            something, pick an item below and reserve it so we avoid duplicates.
+          <p className="font-serif mx-auto mt-4 max-w-md text-base leading-relaxed text-forest/90">
+            Your love, ashirwaad, and presence will mean the most to us.
+          </p>
+          <p className="mx-auto mt-4 max-w-md text-sm leading-relaxed text-muted">
+            We know budgets can be big or small — and that never diminishes the
+            love you have for us. We know you would gift us something, so to
+            help, we have curated this list below.
+          </p>
+          <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-muted">
+            Feel free to come together with others and get us one gift. It will
+            help us start our new lives together. Pick an item and reserve it so
+            we avoid duplicates.
           </p>
 
           {!loading && (
