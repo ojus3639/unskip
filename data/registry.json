@@ -1,0 +1,46 @@
+{
+  "gifts": [
+    {
+      "id": "microwave",
+      "name": "Microwave",
+      "link": "",
+      "claimedBy": null,
+      "claimedAt": null
+    },
+    {
+      "id": "air-fryer",
+      "name": "Air fryer",
+      "link": "",
+      "claimedBy": null,
+      "claimedAt": null
+    },
+    {
+      "id": "tv-65",
+      "name": "65 inch TV",
+      "link": "",
+      "claimedBy": null,
+      "claimedAt": null
+    },
+    {
+      "id": "crockery-set",
+      "name": "Crockery set",
+      "link": "https://amzn.in/d/0cnhEgSE",
+      "claimedBy": null,
+      "claimedAt": null
+    },
+    {
+      "id": "glasses",
+      "name": "Set of Glasses",
+      "link": "",
+      "claimedBy": null,
+      "claimedAt": null
+    },
+    {
+      "id": "duvet",
+      "name": "Duvet",
+      "link": "",
+      "claimedBy": null,
+      "claimedAt": null
+    }
+  ]
+}
