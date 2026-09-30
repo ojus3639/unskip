@@ -28,7 +28,7 @@ Open [http://localhost:3000](http://localhost:3000)
 
 Gift data is stored in `data/registry.json`. Reservations and edits persist on the server filesystem (works on local dev and persistent Node hosts).
 
-For production on Vercel, create a **Blob store** in the project (Storage → Blob). Vercel sets `BLOB_READ_WRITE_TOKEN` automatically. The app saves `data/registry.json` to Blob on the first edit; until then it serves the bundled list from the repo.
+For production on Vercel, connect a **Blob store** (Storage → Blob). Vercel sets `BLOB_STORE_ID`; the `@vercel/blob` SDK authenticates with OIDC on the server. The app writes `wedding-registry/registry.json` in that store on save; until the first save it serves the bundled `data/registry.json` from the repo.
 
 ## Admin
 

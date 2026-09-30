@@ -26,32 +26,40 @@ function hasKvStorage(): boolean {
   return Boolean(process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN);
 }
 
-function shouldTryBlobStorage(): boolean {
-  return (
-    Boolean(process.env.BLOB_READ_WRITE_TOKEN || process.env.BLOB_STORE_ID) ||
-    isRunningOnVercel()
+/** Blob is available when the store is linked (OIDC + BLOB_STORE_ID) or a legacy read-write token exists. */
+function isBlobStoreConfigured(): boolean {
+  return Boolean(
+    process.env.BLOB_READ_WRITE_TOKEN?.trim() || process.env.BLOB_STORE_ID?.trim()
   );
+}
+
+function blobSdkOptions(): { storeId?: string } {
+  const storeId = process.env.BLOB_STORE_ID?.trim();
+  return storeId ? { storeId } : {};
 }
 
 function storageSetupMessage(): string {
   return (
-    "Saving is not configured on Vercel yet. In your Vercel project go to Storage → Create → Blob " +
-    "(recommended), connect it to this app, then redeploy. Reservations and gift edits will work after that."
+    "Gift list storage is not linked to this app. In the Vercel project, open Storage, connect the Blob store, " +
+    "confirm BLOB_STORE_ID is set for Production, then redeploy."
   );
 }
 
-function mapStorageError(error: unknown): Error {
+function formatPersistenceError(error: unknown): Error {
   const raw = error instanceof Error ? error.message : String(error);
-  if (
-    raw.includes("No blob credentials") ||
-    raw.includes("BLOB_READ_WRITE_TOKEN") ||
-    raw.includes("BLOB_STORE_ID") ||
-    raw.includes("EROFS") ||
-    raw.includes("EPERM")
-  ) {
+  const message = raw.replace(/^Vercel Blob:\s*/, "").trim() || "Could not save gift list.";
+
+  if (isRunningOnVercel() && !isBlobStoreConfigured() && !hasKvStorage()) {
     return new Error(storageSetupMessage());
   }
-  return error instanceof Error ? error : new Error(raw);
+
+  if (!isRunningOnVercel() && (raw.includes("EROFS") || raw.includes("EPERM"))) {
+    return new Error(
+      "Cannot write registry.json on this host. Set BLOB_STORE_ID locally (vercel env pull) or run npm run dev."
+    );
+  }
+
+  return new Error(message);
 }
 
 async function readRegistryFromFile(): Promise<RegistryData> {
@@ -60,7 +68,11 @@ async function readRegistryFromFile(): Promise<RegistryData> {
 }
 
 async function readRegistryFromBlob(): Promise<RegistryData | null> {
-  const { blobs } = await list({ prefix: BLOB_PATHNAME, limit: 1 });
+  const { blobs } = await list({
+    prefix: BLOB_PATHNAME,
+    limit: 1,
+    ...blobSdkOptions(),
+  });
   const blob = blobs.find((b) => b.pathname === BLOB_PATHNAME) ?? blobs[0];
   if (!blob) return null;
 
@@ -113,16 +125,17 @@ async function writeRegistryToBlob(data: RegistryData): Promise<void> {
     addRandomSuffix: false,
     allowOverwrite: true,
     contentType: "application/json",
+    ...blobSdkOptions(),
   });
 }
 
-async function readFromRemoteStorage(): Promise<RegistryData | null> {
-  if (shouldTryBlobStorage()) {
+export async function readRegistry(): Promise<RegistryData> {
+  if (isBlobStoreConfigured()) {
     try {
       const fromBlob = await readRegistryFromBlob();
       if (fromBlob) return fromBlob;
     } catch {
-      /* try KV or file fallback */
+      /* use bundled seed file */
     }
   }
 
@@ -131,63 +144,40 @@ async function readFromRemoteStorage(): Promise<RegistryData | null> {
       const fromKv = await readRegistryFromKv();
       if (fromKv) return fromKv;
     } catch {
-      /* fall through */
+      /* use bundled seed file */
     }
   }
-
-  return null;
-}
-
-export async function readRegistry(): Promise<RegistryData> {
-  const remote = await readFromRemoteStorage();
-  if (remote) return remote;
 
   return readRegistryFromFile();
 }
 
 export async function writeRegistry(data: RegistryData): Promise<void> {
-  if (isRunningOnVercel()) {
-    const errors: string[] = [];
-
-    if (shouldTryBlobStorage()) {
-      try {
-        await writeRegistryToBlob(data);
-        return;
-      } catch (error) {
-        errors.push(mapStorageError(error).message);
-      }
-    }
-
-    if (hasKvStorage()) {
-      try {
-        await writeRegistryToKv(data);
-        return;
-      } catch (error) {
-        errors.push(mapStorageError(error).message);
-      }
-    }
-
-    throw new Error(errors[0] ?? storageSetupMessage());
-  }
-
-  if (shouldTryBlobStorage()) {
+  if (isBlobStoreConfigured()) {
     try {
       await writeRegistryToBlob(data);
       return;
-    } catch {
-      /* local dev without blob token — use file */
+    } catch (error) {
+      throw formatPersistenceError(error);
     }
   }
 
   if (hasKvStorage()) {
-    await writeRegistryToKv(data);
-    return;
+    try {
+      await writeRegistryToKv(data);
+      return;
+    } catch (error) {
+      throw formatPersistenceError(error);
+    }
+  }
+
+  if (isRunningOnVercel()) {
+    throw new Error(storageSetupMessage());
   }
 
   try {
     await fs.writeFile(DATA_PATH, JSON.stringify(data, null, 2), "utf-8");
   } catch (error) {
-    throw mapStorageError(error);
+    throw formatPersistenceError(error);
   }
 }
 

@@ -257,7 +257,7 @@ export default function EditPage() {
             <p
               className={`text-center text-sm leading-relaxed ${
                 message.includes("Could not") ||
-                message.includes("Saving is not configured") ||
+                message.includes("storage is not linked") ||
                 message.includes("Invalid")
                   ? "text-terracotta"
                   : "text-forest"
