@@ -28,7 +28,7 @@ Open [http://localhost:3000](http://localhost:3000)
 
 Gift data is stored in `data/registry.json`. Reservations and edits persist on the server filesystem (works on local dev and persistent Node hosts).
 
-For serverless deploys (e.g. Vercel), use a host with writable storage or migrate to a database.
+For production on Vercel, create a **Blob store** in the project (Storage → Blob). Vercel sets `BLOB_READ_WRITE_TOKEN` automatically. The app saves `data/registry.json` to Blob on the first edit; until then it serves the bundled list from the repo.
 
 ## Admin
 

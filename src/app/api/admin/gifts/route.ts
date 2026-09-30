@@ -60,6 +60,13 @@ export async function PUT(request: Request) {
     })
     .filter(Boolean) as Gift[];
 
-  await writeRegistry({ gifts: nextGifts });
+  try {
+    await writeRegistry({ gifts: nextGifts });
+  } catch (error) {
+    const message =
+      error instanceof Error ? error.message : "Could not save gift list.";
+    return NextResponse.json({ error: message }, { status: 500 });
+  }
+
   return NextResponse.json({ success: true, gifts: nextGifts });
 }

@@ -84,7 +84,20 @@ export default function EditPage() {
     setSaving(true);
     setMessage("");
 
-    const payload = gifts.filter((g) => g.name.trim());
+    const payload = gifts
+      .map((g) => ({
+        id: g.id,
+        name: g.name.trim(),
+        link: g.link.trim(),
+      }))
+      .filter((g) => g.name.length > 0);
+
+    const draftRows = gifts.filter((g) => !g.name.trim()).length;
+    if (payload.length === 0) {
+      setMessage("Add at least one gift with a name before saving.");
+      setSaving(false);
+      return;
+    }
 
     const res = await fetch("/api/admin/gifts", {
       method: "PUT",
@@ -93,10 +106,21 @@ export default function EditPage() {
     });
 
     if (res.ok) {
-      setMessage("Gift list saved.");
+      setMessage(
+        draftRows > 0
+          ? "Gift list saved. Empty rows were skipped."
+          : "Gift list saved."
+      );
       loadGifts();
     } else {
-      setMessage("Could not save. Please try again.");
+      let detail = "Could not save. Please try again.";
+      try {
+        const data = (await res.json()) as { error?: string };
+        if (data.error) detail = data.error;
+      } catch {
+        /* ignore */
+      }
+      setMessage(detail);
     }
     setSaving(false);
   }
@@ -200,7 +224,6 @@ export default function EditPage() {
                     onChange={(e) => updateGift(index, "name", e.target.value)}
                     placeholder="Gift name"
                     className="input-field"
-                    required
                   />
                 </div>
                 <div>
@@ -212,7 +235,9 @@ export default function EditPage() {
                     onChange={(e) => updateGift(index, "link", e.target.value)}
                     placeholder="https://..."
                     className="input-field"
-                    type="url"
+                    type="text"
+                    inputMode="url"
+                    autoComplete="off"
                   />
                 </div>
               </div>
