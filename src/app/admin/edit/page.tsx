@@ -254,7 +254,17 @@ export default function EditPage() {
           </button>
 
           {message && (
-            <p className="text-center text-sm text-forest">{message}</p>
+            <p
+              className={`text-center text-sm leading-relaxed ${
+                message.includes("Could not") ||
+                message.includes("Saving is not configured") ||
+                message.includes("Invalid")
+                  ? "text-terracotta"
+                  : "text-forest"
+              }`}
+            >
+              {message}
+            </p>
           )}
 
           <button type="submit" disabled={saving} className="btn-primary w-full">
